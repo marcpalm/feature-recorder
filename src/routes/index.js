@@ -11,3 +11,7 @@ export {
 export {
   FilePresenter
 } from './FilePresenter'
+
+export {
+  Home
+} from './Home'

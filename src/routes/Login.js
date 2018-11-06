@@ -51,7 +51,7 @@ class Login extends Component {
           this.setState({ loading: false })
 
           const { mode } = this.props.match.params
-          this.props.history.push(`/${mode}/orgs/${this.state.username}`)
+          this.props.history.push(`/login/${mode}/orgs/${this.state.username}`)
         },
         e => this.setState({ loading: false, error: e.message })
       )
