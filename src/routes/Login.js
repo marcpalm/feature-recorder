@@ -30,7 +30,7 @@ class Login extends Component {
       }
 
       {
-        window.api.type === 'mock' && (
+        mode === 'mock' && (
           <div>
             <p>Mocked accounts</p>
             <button onClick={() => this.setState({ username: 'nonorg' }, () => this.login())}>Without org</button>
@@ -44,8 +44,9 @@ class Login extends Component {
   }
 
   login () {
+    const { mode } = this.props.match.params
     this.setState({ loading: true })
-    window.api.auth(this.state.username, this.state.password)
+    window.api[mode].auth(this.state.username, this.state.password)
       .then(
         user => {
           this.setState({ loading: false })
