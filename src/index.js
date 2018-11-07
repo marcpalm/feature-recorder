@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Api } from './api';
 
-window.api = window.api || Api
+window.api = Object.assign({}, window.api, Api)
 
 const rootEl = document.getElementById('root');
 

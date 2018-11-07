@@ -9,6 +9,5 @@ export const error = {
   getOrgs: sleepReject,
   getRepos: sleepReject,
   getBranches: sleepReject,
-  getFeatures: sleepReject,
-  getSelectedFeature: sleepReject
+  getContent: sleepReject
 }

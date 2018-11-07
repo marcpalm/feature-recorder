@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-const Choose = ({
+export const Choose = ({
   choices,
   setChoice,
   createNewChoice,
@@ -99,7 +99,7 @@ const ListOfBranches = ({
 
   return <GetAndChoose
     getChoices={() => window.api[mode].getBranches(owner, repo)}
-    setChoice={(branch) => history.push(`/${mode}/${owner}/${repo}/${branch}`)}
+    setChoice={(branch) => history.push(`/${mode}/${owner}/${repo}/${encodeURIComponent(branch)}`)}
   />
 }
 
@@ -116,7 +116,7 @@ const ListOfFeatures = ({
 
   return <GetAndChoose
     getChoices={() => window.api[mode].getFeatures(owner, repo, branch)}
-    setChoice={(feature) => history.push(`/${mode}/${owner}/${repo}/${branch}/${feature}`)}
+    setChoice={(feature) => history.push(`/${mode}/${owner}/${repo}/${encodeURIComponent(branch)}/${feature}`)}
   />
 }
 

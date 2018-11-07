@@ -1,5 +1,20 @@
 import React from 'react'
 
+import { Choose } from './Lists'
+
+
+const ListOfFiles = ({
+  history,
+  location,
+  filesOrDir
+}) => (
+  <Choose
+    choices={filesOrDir}
+    setChoice={(fileOrDir) => {
+      history.push(`${location.pathname}/${fileOrDir}`.replace(`//`, '/'))
+    }}/>
+)
+
 class FilePresenter extends React.Component {
   constructor (props) {
     super(props)
@@ -10,17 +25,28 @@ class FilePresenter extends React.Component {
       file: undefined
     }
   }
-  componentDidMount () {
+
+  load () {
     const {
       mode, owner, repo, branch
     } = this.props.match.params
 
-    const file = this.props.location.pathname.replace(`/${mode}/${owner}/${repo}/${branch}/`, '')
+    const file = this.props.location.pathname.replace(`/${mode}/${owner}/${repo}/${branch}`, '') || '/'
 
-    window.api[mode].getContent(owner, repo, branch, file).then(
+    window.api[mode].getContent(owner, repo, decodeURIComponent(branch), file).then(
       content => this.setState({ content, file }),
       e => this.setState({ error: e ? e.message || e : 'Error'})
     )
+  }
+
+  componentDidMount () {
+    this.load()
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.load()
+    }
   }
 
   render () {
@@ -31,14 +57,14 @@ class FilePresenter extends React.Component {
     } = this.state
 
     const {
-      mode, owner, repo, branch
+      owner, repo, branch
     } = this.props.match.params
 
     return content ? (
       <div>
-        <p>Repo {owner}/{repo} @ {branch}</p>
-        <p>File /{file}</p>
-        <textarea value={content} onChange={e => this.setState({ content: e.target.value})} />
+        <p>Repo {owner}/{repo} @ {decodeURIComponent(branch)}</p>
+        <p>Path {file}</p>
+        { Array.isArray(content) ? <ListOfFiles history={this.props.history} location={this.props.location} filesOrDir={content} /> : <textarea value={content} onChange={e => this.setState({ content: e.target.value})} />}
       </div>
     ): <div>{error || 'Loading Data...'}</div>
   }

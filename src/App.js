@@ -9,7 +9,6 @@ import {
   ListOfBranches,
   ListOfOrgs,
   ListOfRepos,
-  ListOfFeatures,
   FilePresenter
 } from './routes'
 
@@ -25,8 +24,7 @@ class App extends Component {
               <Route exact path='/login/:mode/orgs/:user' component={ListOfOrgs} />
               <Route exact path='/:mode/:owner' component={ListOfRepos}/>
               <Route exact path='/:mode/:owner/:repo' component={ListOfBranches} />
-              <Route exact path='/:mode/:owner/:repo/:branch' component={ListOfFeatures} />
-              <Route path='/:mode/:owner/:repo/:branch/:file' component={FilePresenter}/>
+              <Route path='/:mode/:owner/:repo/:branch' component={FilePresenter} />
             </Switch>
           </main>
         </div>

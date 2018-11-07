@@ -5,11 +5,12 @@ class Login extends Component {
     super(props)
 
     this.state = {
-      username: '',
-      password: '',
       loading: false,
       error: ''
     }
+
+    this.username = React.createRef()
+    this.password = React.createRef()
   }
 
   render () {
@@ -17,8 +18,8 @@ class Login extends Component {
 
     return <React.Fragment>
       <div>Login {mode}</div>
-      <input type='text' value={this.state.username} onChange={e => this.setState({ username: e.target.value })} />
-      <input type='password' value={this.state.password} onChange={e => this.setState({ passsword: e.target.value })} />
+      <input type='text' ref={this.username} />
+      <input type='password' ref={this.password} />
       <button onClick={() => this.login()}>Login</button>
 
       {
@@ -45,14 +46,16 @@ class Login extends Component {
 
   login () {
     const { mode } = this.props.match.params
+    const password = this.password.current.value
+    const username = this.username.current.value
     this.setState({ loading: true })
-    window.api[mode].auth(this.state.username, this.state.password)
+    window.api[mode].auth(username, password)
       .then(
         user => {
           this.setState({ loading: false })
 
           const { mode } = this.props.match.params
-          this.props.history.push(`/login/${mode}/orgs/${this.state.username}`)
+          this.props.history.push(`/login/${mode}/orgs/${username}`)
         },
         e => this.setState({ loading: false, error: e.message })
       )

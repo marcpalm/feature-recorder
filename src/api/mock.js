@@ -49,18 +49,17 @@ export const mock = {
       'Branch4'
     ]
   },
-  getFeatures: async (org, repo, branch) => {
+  getContent: async (org, repo, branch, path) => {
     await sleep()
 
-    return [
-      'Feature1',
-      'Feature2',
-      'Feature3'
-    ]
-  },
-  getContent: async (org, repo, branch, path, file) => {
-    await sleep()
-
-    return `<html><head /><body></body></html>`
+    if (path.length > 1) {
+      return `<html><head /><body></body></html>`
+    } else {
+      return [
+        'Feature1',
+        'Feature2',
+        'Feature3'
+      ]
+    }
   } 
 }
