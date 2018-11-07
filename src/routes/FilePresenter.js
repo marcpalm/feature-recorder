@@ -2,6 +2,9 @@ import React from 'react'
 
 import { Choose } from './Lists'
 
+import AceEditor from 'react-ace'
+import 'brace/theme/monokai'
+import 'brace/mode/javascript'
 
 const ListOfFiles = ({
   history,
@@ -64,7 +67,35 @@ class FilePresenter extends React.Component {
       <div>
         <p>Repo {owner}/{repo} @ {decodeURIComponent(branch)}</p>
         <p>Path {file}</p>
-        { Array.isArray(content) ? <ListOfFiles history={this.props.history} location={this.props.location} filesOrDir={content} /> : <textarea value={content} onChange={e => this.setState({ content: e.target.value})} />}
+        { Array.isArray(content)
+          ? <ListOfFiles history={this.props.history} location={this.props.location} filesOrDir={content} />
+          : <div>
+              <AceEditor
+                mode="javascript"
+                theme="monokai"
+                name="blah2"
+                onLoad={() => console.log('Loaded')}
+                onChange={(content) => {
+                  this.setState({ content})
+                }}
+                onBlur={() => alert('safe ?')}
+                fontSize={14}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                value={content.toString()}
+                setOptions={{
+                enableBasicAutocompletion: false,
+                enableLiveAutocompletion: false,
+                enableSnippets: false,
+                showLineNumbers: true,
+                tabSize: 2,
+                }}
+              />
+              <textarea value={content} style={{ width: '100%' }} onChange={e => this.setState({ content: e.target.value})} />
+              <button>Sync</button>
+            </div>
+        }
       </div>
     ): <div>{error || 'Loading Data...'}</div>
   }

@@ -3,7 +3,7 @@ import { error } from './error'
 import { github } from './github'
 
 export const Api = {
-  mock,
-  error,
+  mock: mock(),
+  error: error(),
   github: github()
 }

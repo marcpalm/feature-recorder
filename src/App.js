@@ -12,11 +12,21 @@ import {
   FilePresenter
 } from './routes'
 
+import {
+  Header
+} from './header/Header'
+
 class App extends Component {
   render() {
     return (
       <Router>
         <div className="App">
+          <header>
+            <Switch>
+              <Route path="/login/:mode" component={Header} />
+              <Route path="/:mode" component={Header} />
+            </Switch>
+          </header>
           <main>
             <Switch>
               <Route exact path='/' component={Home} />

@@ -4,10 +4,14 @@ const sleepReject = () => new Promise((resolve, reject) => {
   )
 })
 
-export const error = {
-  auth: sleepReject,
-  getOrgs: sleepReject,
-  getRepos: sleepReject,
-  getBranches: sleepReject,
-  getContent: sleepReject
+export const error = () => {
+  return {
+    isLoggedIn: sleepReject,
+    auth: sleepReject,
+    logout: sleepReject,   
+    getOrgs: sleepReject,
+    getRepos: sleepReject,
+    getBranches: sleepReject,
+    getContent: sleepReject
+  }
 }

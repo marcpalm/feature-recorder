@@ -3,29 +3,43 @@ const Octokit = require('@octokit/rest')
 export const github = () => {
   const usernameKey = 'testless.username'
   const passwordKey = 'testless.password'
-  const octokit = new Octokit()
+  let octokit = new Octokit()
 
   const username = localStorage.getItem(usernameKey)
   const password = localStorage.getItem(passwordKey)
 
-  if (username) {
+  let loggedIn = false
+
+  if (username && password) {
     octokit.authenticate({
       type: 'basic',
       username,
       password
     })
+
+    loggedIn = true
   }
 
   return {
-    auth: async (username, password) => {
+    isLoggedIn: async () => loggedIn,
+    auth: async (username, password, type = 'basic') => {
       octokit.authenticate({
-        type: 'basic',
+        type,
         username,
         password
       })
 
       localStorage.setItem(usernameKey, username)
       localStorage.setItem(passwordKey, password)
+
+      loggedIn = true
+    },
+    logout: async () => {
+      loggedIn = false
+      octokit = new Octokit()
+
+      localStorage.removeItem(usernameKey)
+      localStorage.removeItem(passwordKey)
     },
     getOrgs: async (username, per_page, page) =>  {
       const orgs = await octokit.users.getOrgs({per_page, page})

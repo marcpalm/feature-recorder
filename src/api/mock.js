@@ -4,62 +4,75 @@ const sleep = () => new Promise((resolve, reject) => {
   )
 })
 
-export const mock = {
-  auth: async (user, password) => {
-    await sleep()
+export const mock = () => {
+  let loggedIn = false
 
-    switch (user) {
-      case 'org': return
-      case 'nonorg': return
-      default: return Promise.reject('Wrong credentials')
-    }
+  return {
+    isLoggedIn: () => sleep().then(_ => loggedIn),
+    auth: async (user, password) => {
+      await sleep()
 
-  },
-  getOrgs: async (user) => {
-    switch (user) {
-      case 'org': return [
-        'org',
-        'org1',
-        'org2',
-        'org3'
-      ]
-      case 'nonorg': return [
-        'nonorg'
-      ]
-      default: return Promise.reject('No such user')
-    }
-  },
-  getRepos: async (org) => {
-    await sleep()
+      loggedIn = true
 
-    return [
-      'Repo1',
-      'Repo2',
-      'Repo3',
-      'Repo4'
-    ]
-  },
-  getBranches: async (org, repo) => {
-    await sleep()
+      switch (user) {
+        case 'org': return
+        case 'nonorg': return
+        default: {
+          loggedIn = false
+          return Promise.reject('Wrong credentials')
+        }
+      }
+    },
+    logout: async () => {
+      await sleep()
+      loggedIn = false
+    },
+    getOrgs: async (user) => {
+      switch (user) {
+        case 'org': return [
+          'org',
+          'org1',
+          'org2',
+          'org3'
+        ]
+        case 'nonorg': return [
+          'nonorg'
+        ]
+        default: return Promise.reject('No such user')
+      }
+    },
+    getRepos: async (org) => {
+      await sleep()
 
-    return [
-      'Branch1',
-      'Branch2',
-      'Branch3',
-      'Branch4'
-    ]
-  },
-  getContent: async (org, repo, branch, path) => {
-    await sleep()
-
-    if (path.length > 1) {
-      return `<html><head /><body></body></html>`
-    } else {
       return [
-        'Feature1',
-        'Feature2',
-        'Feature3'
+        'Repo1',
+        'Repo2',
+        'Repo3',
+        'Repo4'
       ]
+    },
+    getBranches: async (org, repo) => {
+      await sleep()
+
+      return [
+        'Branch1',
+        'Branch2',
+        'Branch3',
+        'Branch4'
+      ]
+    },
+    getContent: async (org, repo, branch, path) => {
+      await sleep()
+
+      if (path.length > 1) {
+        return `<html><head /><body></body></html>`
+      } else {
+        return [
+          'Feature1',
+          'Feature2',
+          'Feature3'
+        ]
+      }
     }
-  } 
+  }
 }
