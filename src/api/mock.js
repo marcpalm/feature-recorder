@@ -9,12 +9,14 @@ export const mock = () => {
 
   return {
     isLoggedIn: () => sleep().then(_ => loggedIn),
-    auth: async (user, password) => {
+    auth: async ({
+      username
+    }) => {
       await sleep()
 
       loggedIn = true
 
-      switch (user) {
+      switch (username) {
         case 'org': return
         case 'nonorg': return
         default: {
@@ -27,8 +29,10 @@ export const mock = () => {
       await sleep()
       loggedIn = false
     },
-    getOrgs: async (user) => {
-      switch (user) {
+    getOrgs: async ({
+      username
+    }) => {
+      switch (username) {
         case 'org': return [
           'org',
           'org1',
@@ -41,7 +45,9 @@ export const mock = () => {
         default: return Promise.reject('No such user')
       }
     },
-    getRepos: async (org) => {
+    getRepos: async ({
+      owner
+    }) => {
       await sleep()
 
       return [
@@ -51,7 +57,10 @@ export const mock = () => {
         'Repo4'
       ]
     },
-    getBranches: async (org, repo) => {
+    getBranches: async ({
+      owner,
+      repo
+    }) => {
       await sleep()
 
       return [
@@ -61,7 +70,7 @@ export const mock = () => {
         'Branch4'
       ]
     },
-    getContent: async (org, repo, branch, path) => {
+    readFileOrDir: async ({ owner, repo, branch, path }) => {
       await sleep()
 
       if (path.length > 1) {

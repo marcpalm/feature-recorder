@@ -63,11 +63,11 @@ const ListOfOrgs = ({
 }) => {
   const {
     mode,
-    user
+    username
   } = match.params
 
   return <GetAndChoose
-    getChoices={() => window.api[mode].getOrgs(user)}
+    getChoices={() => window.api[mode].getOrgs({ username })}
     setChoice={(org) => history.push(`/${mode}/${org}`)} 
   />
 }
@@ -82,7 +82,7 @@ const ListOfRepos = ({
   } = match.params
 
   return <GetAndChoose
-    getChoices={() => window.api[mode].getRepos(owner)}
+    getChoices={() => window.api[mode].getRepos({ owner })}
     setChoice={(repo) => history.push(`/${mode}/${owner}/${repo}`)} 
   />
 }
@@ -98,7 +98,7 @@ const ListOfBranches = ({
   } = match.params
 
   return <GetAndChoose
-    getChoices={() => window.api[mode].getBranches(owner, repo)}
+    getChoices={() => window.api[mode].getBranches({ owner, repo })}
     setChoice={(branch) => history.push(`/${mode}/${owner}/${repo}/${encodeURIComponent(branch)}`)}
   />
 }
@@ -115,7 +115,7 @@ const ListOfFeatures = ({
   } = match.params
 
   return <GetAndChoose
-    getChoices={() => window.api[mode].getFeatures(owner, repo, branch)}
+    getChoices={() => window.api[mode].getFeatures({ owner, repo, branch })}
     setChoice={(feature) => history.push(`/${mode}/${owner}/${repo}/${encodeURIComponent(branch)}/${feature}`)}
   />
 }

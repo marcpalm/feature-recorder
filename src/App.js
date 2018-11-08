@@ -31,7 +31,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path="/login/:mode" component={Login} />
-              <Route exact path='/login/:mode/orgs/:user' component={ListOfOrgs} />
+              <Route exact path='/login/:mode/orgs/:username' component={ListOfOrgs} />
               <Route exact path='/:mode/:owner' component={ListOfRepos}/>
               <Route exact path='/:mode/:owner/:repo' component={ListOfBranches} />
               <Route path='/:mode/:owner/:repo/:branch' component={FilePresenter} />

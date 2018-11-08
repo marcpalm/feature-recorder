@@ -48,8 +48,17 @@ class Login extends Component {
     const { mode } = this.props.match.params
     const password = this.password.current.value
     const username = this.username.current.value
+
+    if (!username) {
+      this.setState({ error: 'Username is required' })
+    }
+
+    if (!password) {
+      this.setState({ error: 'Password is required' })
+    }
+
     this.setState({ loading: true })
-    window.api[mode].auth(username, password)
+    window.api[mode].auth({ username, password })
       .then(
         user => {
           this.setState({ loading: false })

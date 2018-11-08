@@ -1,6 +1,6 @@
-const sleepReject = () => new Promise((resolve, reject) => {
+const sleepReject = (message) => new Promise((resolve, reject) => {
   setTimeout(
-    reject, 1000
+    () => reject(message), 1000
   )
 })
 
@@ -12,6 +12,9 @@ export const error = () => {
     getOrgs: sleepReject,
     getRepos: sleepReject,
     getBranches: sleepReject,
-    getContent: sleepReject
+    readFileOrDir: sleepReject,
+    updateFile: sleepReject,
+    createFile: sleepReject,
+    deleteFile: sleepReject
   }
 }
